@@ -1,9 +1,9 @@
 package flipkart.daily.entities;
 
+import flipkart.daily.exceptions.InventoryException;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.util.Objects;
 
@@ -15,22 +15,16 @@ enum SortOrder {
     ASC, DESC
 }
 
-class InventoryException extends RuntimeException {
-    public InventoryException (String message){
-        super(message);
-    }
-}
-
 @Data
 @Entity
-public class ItemsEntity {
+public class Items {
 
     private  String brand;
     private  String category;
     private  int price;
     private int quantity;
 
-    public ItemsEntity(String brand, String category, int price, int quantity){
+    public Items(String brand, String category, int price, int quantity){
         this.brand = Objects.requireNonNull(brand, "Brand cannot be null");
         this.category = Objects.requireNonNull(category, "Category cannot be null");
         if(price < 0){
