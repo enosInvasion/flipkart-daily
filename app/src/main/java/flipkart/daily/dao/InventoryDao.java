@@ -4,6 +4,7 @@ import java.util.*;
 
 import flipkart.daily.exceptions.InventoryException;
 import flipkart.daily.entities.Items;
+import org.springframework.stereotype.Component;
 
 interface InventoryDaoInf{
     void addItem(Items item);
@@ -11,6 +12,8 @@ interface InventoryDaoInf{
     List<Items> getAllItems();
     Items getItem(String brand, String category);
 }
+
+@Component
 public class InventoryDao implements InventoryDaoInf{
 
     private final Map<String , Items> inventory = new HashMap<>();
