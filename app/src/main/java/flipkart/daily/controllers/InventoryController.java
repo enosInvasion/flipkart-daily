@@ -60,7 +60,6 @@ public class InventoryController {
             itemsByBrand.put("brand", brands);
             List<Items> results = inventoryService.searchItems(itemsByBrand, null, null,
                     sc, so);
-//            results.forEach(System.out::println);
             for (Items item : results) {
                 System.out.println(item.getBrand() + ", " + item.getCategory() + ", " + item.getPrice());
             }
