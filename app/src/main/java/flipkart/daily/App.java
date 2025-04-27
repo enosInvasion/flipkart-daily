@@ -3,12 +3,97 @@
  */
 package flipkart.daily;
 
+import flipkart.daily.controllers.InventoryController;
+import flipkart.daily.dao.InventoryDao;
+import flipkart.daily.entities.Items;
+import flipkart.daily.services.InventoryService;
+
+import java.util.*;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        InventoryController inventoryController = new InventoryController();
+        try{
+            // Test case 1 - Adding items
+            System.out.println("Adding Items: ");
+            inventoryController.addItem("Amul", "Milk", 100);
+            inventoryController.addItem("Amul", "Curd", 50);
+            inventoryController.addItem("Nestle", "Milk", 60);
+            inventoryController.addItem("Nestle", "Curd", 90);
+
+            // Test case 2 - Adding Inventory
+            System.out.println("\nAdding Inventory:");
+            inventoryController.addInventory("Amul", "Milk", 10);
+            inventoryController.addInventory("Nestle", "Milk", 5);
+            inventoryController.addInventory("Nestle", "Curd", 10);
+            inventoryController.addInventory("Amul", "Milk", 10);
+            inventoryController.addInventory("Amul", "Curd", 5);
+
+            // Print inventory
+            inventoryController.printInventory();
+            System.out.println();
+
+            // Test case 3 - Search Items by Brand
+            System.out.println("Search items by brand: ");
+            inventoryController.searchByBrand( List.of("Amul", "Nestle"), null, null);
+            System.out.println();
+            System.out.println("Search items by brand with price sorting in descending order:");
+            inventoryController.searchByBrand( List.of("Amul", "Nestle"), "price", "desc");
+            System.out.println();
+            System.out.println("Search items by brand with quantity sorting in descending order:");
+            inventoryController.searchByBrand( List.of("Amul", "Nestle"), "quantity", "desc");
+
+            // Test case 4 - Search Items by Category
+            System.out.println("Search items by category: ");
+            inventoryController.searchByCategory( List.of("Milk", "Curd"), null, null);
+            System.out.println();
+            System.out.println("Search items by category with price sorting in descending order:");
+            inventoryController.searchByCategory( List.of("Milk", "Curd"), "price", "desc");
+            System.out.println();
+            System.out.println("Search items by category with quantity sorting in descending order:");
+            inventoryController.searchByCategory( List.of("Milk", "Curd"), "quantity", "desc");
+
+            // Test case 5 - Search Items by Price Range
+            System.out.println("Search items by price range: ");
+            inventoryController.searchByPriceRange( 50, 100, null, null);
+            System.out.println();
+            System.out.println("Search items by price range with price sorting in descending order:");
+            inventoryController.searchByPriceRange( 50, 100, "price", "desc");
+            System.out.println();
+            System.out.println("Search items by price range with quantity sorting in descending order:");
+            inventoryController.searchByPriceRange( 50, 100, "quantity", "desc");
+
+            // Test case 6 - Search Items by Brand and Category
+            System.out.println("Search items by category and price range: ");
+            inventoryController.searchByCategoryAndPriceRange( List.of("Milk", "Curd"), 50,
+                    100, null, null);
+            System.out.println();
+            System.out.println("Search items by category with price range sorting in descending order:");
+            inventoryController.searchByCategoryAndPriceRange( List.of("Milk", "Curd"), 50,
+                    100, "price", "desc");
+            System.out.println();
+            System.out.println("Search items by category with quantity and price range sorting in descending order:");
+            inventoryController.searchByCategoryAndPriceRange( List.of("Milk", "Curd"), 50,
+                    100, "quantity", "desc");
+
+            // Test case 7 - Search Items by Brand, Category and Price Range
+            System.out.println("Search items by brand, category and price range: ");
+            inventoryController.searchItemsWithAllTheFilters( List.of("Milk", "Curd"), List.of("Amul", "Nestle"),
+                     50, 100, null, null);
+            System.out.println();
+            System.out.println("Search items by brand, category with price range sorting in descending order:");
+            inventoryController.searchItemsWithAllTheFilters( List.of("Milk", "Curd"), List.of("Amul", "Nestle"),
+                    50, 100, "price", "desc");
+            System.out.println();
+            System.out.println("Search items by brand, category with quantity and price range sorting in descending order:");
+            inventoryController.searchItemsWithAllTheFilters( List.of("Milk", "Curd"), List.of("Amul", "Nestle"),
+                     50, 100, "quantity", "desc");
+
+        }
+        catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
+
     }
 }

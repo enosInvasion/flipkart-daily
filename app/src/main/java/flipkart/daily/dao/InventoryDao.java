@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 interface InventoryDaoInf{
     void addItem(Items item);
-    void addInventory(String category, String brand, int price, int quantity);
+    void addInventory(String category, String brand, int quantity);
     List<Items> getAllItems();
     Items getItem(String brand, String category);
 }
@@ -32,11 +32,13 @@ public class InventoryDao implements InventoryDaoInf{
     }
 
     @Override
-    public void addInventory(String category, String brand, int price, int quantity){
+    public void addInventory(String brand, String category, int quantity){
         Items item = getItem(brand, category);
         if(item == null){
             throw new InventoryException("Item not found : " + brand + ", " + category);
         }
+
+        item.addQuantity(quantity);
     }
 
     @Override

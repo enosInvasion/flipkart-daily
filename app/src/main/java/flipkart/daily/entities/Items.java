@@ -7,14 +7,6 @@ import lombok.Data;
 
 import java.util.Objects;
 
-enum SortCriteria {
-    PRICE, QUANTITY
-}
-
-enum SortOrder {
-    ASC, DESC
-}
-
 @Data
 @Entity
 public class Items {
@@ -24,7 +16,7 @@ public class Items {
     private  int price;
     private int quantity;
 
-    public Items(String brand, String category, int price, int quantity){
+    public Items(String brand, String category, int price){
         this.brand = Objects.requireNonNull(brand, "Brand cannot be null");
         this.category = Objects.requireNonNull(category, "Category cannot be null");
         if(price < 0){

@@ -68,11 +68,11 @@ public class InventoryService {
         this.inventoryDao = inventoryDao;
     }
 
-    public void addItem(Items items){
-        inventoryDao.addItem(items);
+    public void addItem(String brand, String category, int price){
+        inventoryDao.addItem(new Items(brand, category, price));
     }
-    public void addInventory(String category, String brand, int price, int quantity){
-         inventoryDao.addInventory(category, brand, price, quantity);
+    public void addInventory(String category, String brand, int quantity){
+         inventoryDao.addInventory(category, brand, quantity);
     }
     public List<Items> getAllItems(){
         return inventoryDao.getAllItems();
@@ -85,14 +85,23 @@ public class InventoryService {
                                    SortCriteria sortBy, SortOrder sortOrder){
         List<ItemFilter> itemFilters = new ArrayList<>();
 
-        if(filters.containsKey("category")){
-            itemFilters.add(new CategoryFilter(filters.get("category")));
+        if(filters != null){
+            if(filters.containsKey("category")){
+                itemFilters.add(new CategoryFilter(filters.get("category")));
+            }
+            if(filters.containsKey("brand")){
+                itemFilters.add(new BrandFilter(filters.get("brand")));
+            }
         }
-        if(filters.containsKey("brand")){
-            itemFilters.add(new BrandFilter(filters.get("brand")));
-        }
+
         if(minPrice != null || maxPrice != null){
             itemFilters.add(new PriceRangeFilter(minPrice, maxPrice));
+        }
+        if (sortBy == null) {
+            sortBy = SortCriteria.PRICE;
+        }
+        if (sortOrder == null) {
+            sortOrder = SortOrder.ASC;
         }
         return inventoryDao.getAllItems().stream()
                 .filter(items -> itemFilters.stream().allMatch(filter -> filter.check(items)))
@@ -127,8 +136,8 @@ public class InventoryService {
 
         for(Map.Entry<String, Map<String, Integer>> brandEntry: result.entrySet()){
             for(Map.Entry<String, Integer> categoryEntry: brandEntry.getValue().entrySet() ){
-                System.out.printf("%s %s %d\n",
-                        brandEntry.getKey(), categoryEntry.getKey(), categoryEntry.getValue());
+                System.out.println(
+                        brandEntry.getKey() + " -> " + categoryEntry.getKey() + " -> " + categoryEntry.getValue());
             }
         }
     }
